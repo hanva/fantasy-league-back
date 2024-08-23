@@ -1,4 +1,9 @@
 api_platform:
-    resource: .
-    type: api_platform
-    prefix: /api
+  resource: .
+  type: api_platform
+  prefix: /api
+
+api_user_register:
+  path: /api/user/register
+  controller: App\Controller\UserController::register
+  methods: [ POST ]
