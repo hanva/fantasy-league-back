@@ -2,14 +2,33 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\GetCollection;
+use App\Controller\UserController;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Put;
 
 #[ORM\Entity]
-#[ApiResource]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+#[ApiResource(
+    operations: [
+        new Get(),
+        new GetCollection(),
+//        new Put(),
+//        new Delete(),
+        new Post(
+            uriTemplate: '/users/register',
+            controller: UserController::class,
+            routeName: 'api_user_register',
+            name: 'register',
+            description: 'Creates an user',
+        ),
+    ]
+)] class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

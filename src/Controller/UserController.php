@@ -11,7 +11,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 
-#[Route('/api/user', name: 'api_user_')]
+#[Route('/api/users', name: 'api_user_')]
 class UserController extends AbstractController
 {
     private $entityManager;
