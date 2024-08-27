@@ -30,3 +30,4 @@ security:
     - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
     - { path: ^/api/user, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/api/leagues, roles: IS_AUTHENTICATED_FULLY }

@@ -28,7 +28,8 @@ use ApiPlatform\Metadata\Put;
             description: 'Creates an user',
         ),
     ]
-)] class User implements UserInterface, PasswordAuthenticatedUserInterface
+)]
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
