@@ -15,11 +15,32 @@ use Doctrine\ORM\Mapping as ORM;
 #[ApiResource(
     operations: [
         new GetCollection(
-            uriTemplate: '/users/register',
+            uriTemplate: '/api/leagues/get-leagues',
             controller: LeagueController::class,
-            routeName: 'api_league_get_next_matches_from_league',
-            name: 'get next matches from league',
-            description: 'get Matches from League',
+            routeName: 'api_league_get_leagues',
+            name: 'get leagues',
+            description: 'get leagues',
+        ),
+        new GetCollection(
+            uriTemplate: '/api/league/{id}',
+            routeName: 'get_league_schedule',
+            defaults: ['id' => '98767991302996019'],
+            controller: LeagueController::class,
+            openapiContext: [
+                'parameters' => [
+                    [
+                        'name' => 'onlyNextMatches',
+                        'in' => 'query',
+                        'description' => 'Filter to get only the next matches',
+                        'required' => false,
+                        'schema' => [
+                            'type' => 'boolean'
+                        ]
+                    ]
+                ],
+                'summary' => 'Get Collections of Matches',
+                'description' => 'Can be both full schedule or next matches, depending on the query parameter',
+            ],
         ),
     ]
 )]
