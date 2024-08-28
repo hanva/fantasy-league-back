@@ -12,25 +12,57 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Put;
+use App\Trait\Serializable;
+
 
 #[ORM\Entity]
 #[ApiResource(
     operations: [
-        new Get(),
-        new GetCollection(),
+        new Get(security: "is_granted('ROLE_USER')"),
+        new Post(
+            uriTemplate: '/user/by-email',
+            routeName: 'api_user_get_by_email',
+            controller: UserController::class,
+            openapiContext: [
+                'summary' => 'Get a user by email',
+                'description' => 'Because API Only gets by ID by default',
+                'requestBody' => [
+                    'content' => [
+                        'application/json' => [
+                            'schema' => [
+                                'type' => 'object',
+                                'properties' => [
+                                    'email' => [
+                                        'type' => 'string',
+                                        'example' => 'root@root.fr',
+                                    ],
+                                ],
+                                'required' => ['email'],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            security: "is_granted('ROLE_USER')",
+            name: 'email'),
+        new GetCollection(security: "is_granted('ROLE_ADMIN')"),
 //        new Put(),
 //        new Delete(),
         new Post(
-            uriTemplate: '/users/register',
+            uriTemplate: '/user/register',
             controller: UserController::class,
             routeName: 'api_user_register',
             name: 'register',
-            description: 'Creates an user',
+            openapiContext: [
+                'summary' => 'Creates an user',
+            ],
         ),
     ]
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    use Serializable;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]

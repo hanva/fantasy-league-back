@@ -27,7 +27,9 @@ security:
 
 
   access_control:
-    - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-    - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
-    - { path: ^/api/user, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-    - { path: ^/api/leagues, roles: IS_AUTHENTICATED_FULLY }
+  #    - { path: ^/users/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+  #    - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+  #    - { path: ^/api/users, roles: ROLE_USER }
+  #    - { path: ^/users, roles: ROLE_USER }
+  #    - { path: ^/leagues, roles: IS_AUTHENTICATED_FULLY }
+  #    - { path: ^/, roles: IS_AUTHENTICATED_FULLY }

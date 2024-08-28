@@ -8,12 +8,12 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController
 {
-    #[Route('/api/login', name: 'api_login', methods: ['POST'])]
+    #[Route('/login', name: 'api_login', methods: ['POST'])]
     public function login(AuthenticationUtils $authenticationUtils): JsonResponse
     {
     }
 
-    #[Route('/api/logout', name: 'api_logout', methods: ['GET'])]
+    #[Route('/logout', name: 'api_logout', methods: ['GET'])]
     public function logout(): void
     {
     }
