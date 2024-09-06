@@ -19,17 +19,23 @@ security:
       pattern: ^/api/login
       stateless: true
       json_login:
-        check_path: /api/login
+        check_path: /api/login_check
         username_path: email
         password_path: password
         success_handler: lexik_jwt_authentication.handler.authentication_success
         failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
+    api:
+      pattern: ^/api
+      stateless: true
+      jwt: ~
+
 
   access_control:
-  #    - { path: ^/users/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-  #    - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-  #    - { path: ^/api/users, roles: ROLE_USER }
-  #    - { path: ^/users, roles: ROLE_USER }
-  #    - { path: ^/leagues, roles: IS_AUTHENTICATED_FULLY }
-  #    - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
+    - { path: ^/api/users/register, roles: PUBLIC_ACCESS }
+    - { path: ^/api/login, roles: PUBLIC_ACCESS }
+    - { path: ^/api/users, roles: ROLE_USER }
+    - { path: ^/api, roles: PUBLIC_ACCESS }
+    - { path: ^/users, roles: ROLE_USER }
+    - { path: ^/leagues, roles: IS_AUTHENTICATED_FULLY }
+    - { path: ^/, roles: IS_AUTHENTICATED_FULLY }

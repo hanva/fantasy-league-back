@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use ApiPlatform\Metadata\ApiResource;
-use App\Service\Secta\SectaContentService;
+use App\Services\FetchService;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,52 +14,20 @@ use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-#[Route('/league', name: 'api_league_')]
+#[Route('/league', name: 'api_leagues_')]
 #[AsController]
 class LeagueController extends AbstractController
 {
-    private string $apiUrl;
-    private $selectedLeagues = [
-        'LEC' => '98767991302996019',
-        'LCS' => '98767991299243165',
-        'LCK' => '98767991310872058',
-        'LPL' => '98767991314006698',
-    ];
-
     public function __construct(
-        private ParameterBagInterface $parameterBag,
-        private HttpClientInterface   $httpClient
+        private FetchService $fetchService
     )
     {
-    }
-
-    public function fetch(
-        string $method,
-        string $url,
-        array  $options = []
-    )
-    {
-        if (!(isset($options['headers']))) {
-            $options['headers'] = [
-                'x-api-key' => $this->parameterBag->get('api_key')
-            ];
-
-        }
-
-        $destination = "{$this->parameterBag->get('api_url')}{$url}";
-
-        $response = $this->httpClient->request(
-            $method,
-            $destination,
-            $options
-        );
-        return $response->getContent();
     }
 
     #[Route("/get-leagues", name: "get_leagues", methods: ["GET"])]
     public function getNextMatchesFromLeague(): JsonResponse
     {
-        $leagues = $this->fetch('GET', '/getLeagues', ['query' => [
+        $leagues = $this->fetchService->fetch('GET', '/getLeagues', ['query' => [
             'hl' => 'fr-FR',
         ]]);
         return new JsonResponse([
@@ -67,7 +35,7 @@ class LeagueController extends AbstractController
         ]);
     }
 
-    #[Route("/{id}", name: "get_league_schedule", methods: ["GET"],)]
+    #[Route("/{id}", name: "get_league_schedule", methods: ["GET"])]
     public function getLeagueSchedule(
         string  $id,
         Request $request
@@ -76,12 +44,11 @@ class LeagueController extends AbstractController
         $onlyNextMatches = $request->get("onlyNextMatches", 0);
 
         // TO DO Move all results and map in entity so $scheduleDecoded->data->schedule->events is defined -> interface|entity
-
         if ($id === 'selected') {
-            $id = implode(',', $this->selectedLeagues);
+            $id = implode(',', $this->fetchService->selectedLeagues);
         }
 
-        $schedule = $this->fetch('GET', '/getSchedule', ['query' => [
+        $schedule = $this->fetchService->fetch('GET', '/getSchedule', ['query' => [
             'hl' => 'fr-FR',
             'leagueId' => $id,
         ]]);
@@ -90,7 +57,7 @@ class LeagueController extends AbstractController
 
         if ($onlyNextMatches) {
             $nextMatches = array_filter($scheduleDecoded->data->schedule->events, function ($match) {
-                return $match->state === 'unstarted';
+                return $match->state === 'unstarted' || $match->state === 'inProgress';
             });
             $scheduleDecoded->data->schedule->events = array_values($nextMatches);
         }

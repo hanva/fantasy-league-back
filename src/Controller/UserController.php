@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Bet;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,7 +14,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
-#[Route('/user', name: 'api_user_')]
+#[Route('/users', name: 'api_users_')]
 class UserController extends AbstractController
 {
     private $entityManager;
@@ -67,5 +68,23 @@ class UserController extends AbstractController
         }
 
         return new JsonResponse($user->toArray(), JsonResponse::HTTP_CREATED);
+    }
+
+    #[Route("/bets/list", name: "get_bets", methods: ["GET"])]
+    public function getBets(Request $request): JsonResponse
+    {
+        $user = $this->getUser();
+
+        if (!$user) {
+            return new JsonResponse(['message' => 'User not found.'], 404);
+        }
+
+        $bets = $this->entityManager->getRepository(Bet::class)
+            ->findBy(['user' => $user]);
+
+        // TO DO CHECK IF RETURN ARE NORMALIZED
+
+        return new JsonResponse($bets);
+
     }
 }
