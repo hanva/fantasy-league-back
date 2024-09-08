@@ -70,7 +70,7 @@ class UserController extends AbstractController
         return new JsonResponse($user->toArray(), JsonResponse::HTTP_CREATED);
     }
 
-    #[Route("/bets/list", name: "get_bets", methods: ["GET"])]
+    #[Route("/bets/list", name: "get_user_bets", methods: ["GET"])]
     public function getBets(Request $request): JsonResponse
     {
         $user = $this->getUser();
@@ -79,12 +79,10 @@ class UserController extends AbstractController
             return new JsonResponse(['message' => 'User not found.'], 404);
         }
 
-        $bets = $this->entityManager->getRepository(Bet::class)
-            ->findBy(['user' => $user]);
-
+        $bets = $user->getBets();
         // TO DO CHECK IF RETURN ARE NORMALIZED
 
-        return new JsonResponse($bets);
+        return $this->json($bets);
 
     }
 }

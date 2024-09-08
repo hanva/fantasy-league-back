@@ -29,14 +29,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new GetCollection(security: "is_granted('ROLE_ADMIN')"),
         new GetCollection(
             uriTemplate: '/api/users/bets/list',
-            routeName: 'api_users_get_bets',
+            routeName: 'api_users_get_user_bets',
             controller: UserController::class,
             openapiContext: [
                 'security' => [['JWT' => []]],
                 'summary' => 'Get bets owned by the current user',
                 'description' => 'Returns a collection of bets owned by the authenticated user.',
             ],
-            normalizationContext: ['groups' => ['user:get_bets']],
+            name: 'user_bets',
         ),
         new Post(
             uriTemplate: '/api/users/by-email',
@@ -96,7 +96,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             name: 'register'
         ),
     ],
-    normalizationContext: ['groups' => ['user:read', 'user:get_bets']],
+    normalizationContext: ['groups' => ['user:read']],
     denormalizationContext: ['groups' => ['user:write']]
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -167,7 +167,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    #[Groups(['user:read', 'user:get_bets', 'user:write'])]
+    #[Groups(['user:read', 'user:write'])]
     public function getBets(): Collection
     {
         return $this->bets;

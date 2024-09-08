@@ -18,7 +18,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new GetCollection(),
         new Post(),
     ],
-    normalizationContext: ['groups' => ['bet:read']],
+    normalizationContext: ['groups' => ['bet:read', 'user:read']],
     denormalizationContext: ['groups' => ['bet:write']]
 )]
 class Bet
@@ -30,7 +30,7 @@ class Bet
     private ?int $id = null;
 
     #[ORM\Column(type: 'bigint')]
-    #[Groups(['bet:read', 'bet:write', 'user:read', 'user:get_bets'])]
+    #[Groups(['bet:read', 'bet:write', 'user:read'])]
     private ?int $leagueEventId = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'bets')]
@@ -49,6 +49,9 @@ class Bet
     #[ORM\Column]
     #[Groups(['bet:read', 'bet:write', 'user:read'])]
     private ?int $gameLooses = null;
+
+    #[ORM\Column]
+    private ?int $score = 0;
 
     public function getId(): ?int
     {
@@ -111,6 +114,18 @@ class Bet
     public function setGameLooses(int $gameLooses): static
     {
         $this->gameLooses = $gameLooses;
+
+        return $this;
+    }
+
+    public function getScore(): ?int
+    {
+        return $this->score;
+    }
+
+    public function setScore(int $score): static
+    {
+        $this->score = $score;
 
         return $this;
     }
