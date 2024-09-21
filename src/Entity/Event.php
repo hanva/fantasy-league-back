@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use App\Controller\EventController;
 use App\Repository\EventRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,6 +15,27 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     operations: [
         new GetCollection(),
+        new Get(
+            uriTemplate: '/api/events/get-event-details',
+            routeName: 'api_events_get_event_details',
+            defaults: ['id' => '98767991302996019'],
+            controller: EventController::class,
+            openapiContext: [
+                'parameters' => [
+                    [
+                        'name' => 'leagueEventId',
+                        'in' => 'query',
+                        'description' => 'League Id to fetch',
+                        'required' => true,
+                        'schema' => [
+                            'type' => 'string'
+                        ]
+                    ]
+                ],
+                'summary' => 'Get Details of an Event',
+                'description' => 'Get Details of an Event',
+            ],
+        ),
     ]
 )]
 class Event

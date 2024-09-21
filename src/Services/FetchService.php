@@ -13,6 +13,8 @@ class FetchService
         'LCS' => '98767991299243165',
         'LCK' => '98767991310872058',
         'LPL' => '98767991314006698',
+        'Mondial' => '98767975604431411',
+        'Worlds Qualifying Series' => '110988878756156222',
     ];
 
     public function __construct(

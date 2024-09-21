@@ -167,7 +167,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    #[Groups(['user:read', 'user:write'])]
     public function getBets(): Collection
     {
         return $this->bets;

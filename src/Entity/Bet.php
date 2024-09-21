@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Controller\LeagueController;
 use App\Repository\BetRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,7 +17,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
     operations: [
         new Get(security: "is_granted('ROLE_USER')"),
         new GetCollection(),
-        new Post(),
+        new Put(
+            openapiContext: [
+                'security' => [['JWT' => []]],
+            ],
+        ),
+        new Post(
+            openapiContext: [
+                'security' => [['JWT' => []]],
+            ],
+        ),
     ],
     normalizationContext: ['groups' => ['bet:read', 'user:read']],
     denormalizationContext: ['groups' => ['bet:write']]
@@ -29,9 +39,9 @@ class Bet
     #[Groups(['bet:read', 'user:read'])]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'bigint')]
+    #[ORM\Column(type: 'string')]
     #[Groups(['bet:read', 'bet:write', 'user:read'])]
-    private ?int $leagueEventId = null;
+    private ?string $leagueEventId = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'bets')]
     #[ORM\JoinColumn(nullable: false)]
@@ -58,12 +68,12 @@ class Bet
         return $this->id;
     }
 
-    public function getLeagueEventId(): ?int
+    public function getLeagueEventId(): ?string
     {
         return $this->leagueEventId;
     }
 
-    public function setLeagueEventId(int $leagueEventId): static
+    public function setLeagueEventId(string $leagueEventId): static
     {
         $this->leagueEventId = $leagueEventId;
 
