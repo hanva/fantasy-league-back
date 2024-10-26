@@ -55,10 +55,22 @@ class LeagueController extends AbstractController
 
         $scheduleDecoded = json_decode($schedule);
 
+        $user = $this->getUser();
+
         if ($onlyNextMatches) {
-            $nextMatches = array_filter($scheduleDecoded->data->schedule->events, function ($match) {
-                return $match->state === 'unstarted' || $match->state === 'inProgress';
-            });
+            if ($user) {
+                $bets = $user->getBets();
+                $leagueEventIds = $bets->map(fn($bet) => $bet->getLeagueEventId())->toArray();
+                $nextMatches = array_filter($scheduleDecoded->data->schedule->events, function ($match) use ($leagueEventIds) {
+                    return $match->state === 'unstarted' ||
+                        $match->state === 'inProgress' || in_array($match->match->id, $leagueEventIds);
+                });
+                $nextMatches = array_values($nextMatches);
+            } else {
+                $nextMatches = array_filter($scheduleDecoded->data->schedule->events, function ($match) {
+                    return $match->state === 'unstarted' || $match->state === 'inProgress';
+                });
+            }
             $scheduleDecoded->data->schedule->events = array_values($nextMatches);
         }
 

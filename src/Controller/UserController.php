@@ -27,13 +27,16 @@ class UserController extends AbstractController
     }
 
     #[Route("/register", name: "register", methods: ["POST"])]
-    public function register(Request $request): JsonResponse
+    public function register(Request $request, UserRepository $userRepository): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
 
         // Validate input
         if (!isset($data['email']) || !isset($data['password'])) {
             return new JsonResponse(['error' => 'Invalid input'], Response::HTTP_BAD_REQUEST);
+        }
+        if ($userRepository->findOneBy(['email' => $data['email']])) {
+            return new JsonResponse(['code' => 'account-exist'], JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         $user = new User();
