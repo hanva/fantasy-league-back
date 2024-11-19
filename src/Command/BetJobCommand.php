@@ -6,6 +6,7 @@ use App\Repository\BetRepository;
 use App\Repository\EventRepository;
 use App\Services\FetchService;
 use App\Services\ScoreService;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -65,12 +66,34 @@ class BetJobCommand extends Command
         foreach ($events as $event) {
             foreach ($completedMatches as $match) {
                 if ($event->getLeagueEventId() == $match->match->id) {
-                    $matchDetails = $this->fetchService->fetch('GET', '/' . 112449598160932436, ['query' => [
-//                        'gameId' => $match->match->id,
-                    ]], $this->parameterBag->get('api_live_url'));
-//                    dump($completedMatches);
-                    dump($matchDetails);
-                    die;
+                    $matchDetails = $this->fetchService->fetch('GET', '/getEventDetails', ['query' => [
+                        'id' => $match->match->id,
+                        'hl' => 'fr-FR',
+                    ]]);
+                    $matchDetailsDecoded = json_decode($matchDetails);
+                    $games = array_map(function ($item) {
+                        return $item->id ?? null; // Retourne l'ID si présent, sinon null
+                    }, $matchDetailsDecoded->data->event->match->games);
+                    foreach ($games as $id) {
+                        $gameData = $this->fetchService->fetch('GET', '/window/' . $id, [
+                        ], $this->parameterBag->get('api_live_url'));
+                        //Getting first frame of the game; but if its working right we could just use date of now + 1
+                        $gameDataDecoded = json_decode($gameData);
+                        $time = $gameDataDecoded->frames[0]->rfc460Timestamp;
+                        $date = new DateTime($time);
+                        $date->modify('+1 day');
+                        $date->setTime(0, 0, 0);
+
+                        $gameData = $this->fetchService->fetch('GET', '/window/' . $id, [
+                            'query' => [
+                                'startingTime' => $date->format('Y-m-d\TH:i:s\Z')
+                            ]
+                        ], $this->parameterBag->get('api_live_url'));
+                        $fullGameData = json_decode($gameData);
+                        dump(end($fullGameData->frames));
+                        die;
+                    }
+
 //                    $bets = $this->betRepository->findBy(['leagueEventId' => $event->getLeagueEventId()]);
 //                    foreach ($bets as $bet) {
 //                        $score = $this->scoreService->getFinalScore($bet, $match->match);
