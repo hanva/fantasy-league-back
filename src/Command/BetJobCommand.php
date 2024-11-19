@@ -37,29 +37,6 @@ class BetJobCommand extends Command
         parent::__construct();
     }
 
-    public function fetch(
-        string $method,
-        string $url,
-        array  $options = []
-    )
-    {
-        if (!(isset($options['headers']))) {
-            $options['headers'] = [
-                'x-api-key' => $this->parameterBag->get('api_key')
-            ];
-
-        }
-
-        $destination = "{$this->parameterBag->get('api_url')}{$url}";
-
-        $response = $this->httpClient->request(
-            $method,
-            $destination,
-            $options
-        );
-        return $response->getContent();
-    }
-
     protected function configure(): void
     {
         $this
@@ -72,7 +49,7 @@ class BetJobCommand extends Command
 
         $id = implode(',', $this->fetchService->selectedLeagues);
 
-        $schedule = $this->fetch('GET', '/getSchedule', ['query' => [
+        $schedule = $this->fetchService->fetch('GET', '/getSchedule', ['query' => [
             'hl' => 'fr-FR',
             'leagueId' => $id,
         ]]);
@@ -88,14 +65,20 @@ class BetJobCommand extends Command
         foreach ($events as $event) {
             foreach ($completedMatches as $match) {
                 if ($event->getLeagueEventId() == $match->match->id) {
-                    $bets = $this->betRepository->findBy(['leagueEventId' => $event->getLeagueEventId()]);
-                    foreach ($bets as $bet) {
-                        $score = $this->scoreService->getFinalScore($bet, $match->match);
-                        $bet->setScore($score);
-                        $this->manager->persist($bet);
-                    }
-                    $event->setStatus('completed');
-                    $this->manager->persist($event);
+                    $matchDetails = $this->fetchService->fetch('GET', '/' . 112449598160932436, ['query' => [
+//                        'gameId' => $match->match->id,
+                    ]], $this->parameterBag->get('api_live_url'));
+//                    dump($completedMatches);
+                    dump($matchDetails);
+                    die;
+//                    $bets = $this->betRepository->findBy(['leagueEventId' => $event->getLeagueEventId()]);
+//                    foreach ($bets as $bet) {
+//                        $score = $this->scoreService->getFinalScore($bet, $match->match);
+//                        $bet->setScore($score);
+//                        $this->manager->persist($bet);
+//                    }
+//                    $event->setStatus('completed');
+//                    $this->manager->persist($event);
                 }
             }
         }

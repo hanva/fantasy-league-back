@@ -27,9 +27,11 @@ class FetchService
     public function fetch(
         string $method,
         string $url,
-        array  $options = []
+        array  $options = [],
+        string $baseUrl = null
     )
     {
+        if (!$baseUrl) $baseUrl = $this->parameterBag->get('api_url');
         if (!(isset($options['headers']))) {
             $options['headers'] = [
                 'x-api-key' => $this->parameterBag->get('api_key')
@@ -37,7 +39,7 @@ class FetchService
 
         }
 
-        $destination = "{$this->parameterBag->get('api_url')}{$url}";
+        $destination = "{$baseUrl}{$url}";
 
         $response = $this->httpClient->request(
             $method,

@@ -9,6 +9,7 @@
 /vendor/
 /.idea/
 /.idea/*
+/logs.json
 ###< symfony/framework-bundle ###
 
 ###> lexik/jwt-authentication-bundle ###
