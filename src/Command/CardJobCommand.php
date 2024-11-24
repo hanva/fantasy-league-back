@@ -55,7 +55,16 @@ class CardJobCommand extends Command
             $output->writeln('<error>Invalid JSON data</error>');
             return Command::FAILURE;
         }
+
         foreach ($data as $item) {
+            $existingCard = $this->entityManager
+                ->getRepository(Card::class)
+                ->findOneBy(['name' => $item['name']]);
+
+            if ($existingCard) {
+                $output->writeln("<comment>Card already exists: {$item['name']}</comment>");
+                continue; // Passer à l'élément suivant
+            }
             $card = new Card();
             $card->setName($item['name']);
             $card->setRarity($item['rarity']);
