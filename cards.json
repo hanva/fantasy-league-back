@@ -2,232 +2,166 @@
   {
     "name": "Top Gap",
     "rarity": "Common",
-    "description": {
-      "fr": "20 points si le toplaner a un meilleur KDA que son adversaire"
-    }
+    "description": "20 points if the toplaner has a better KDA than their opponent"
   },
   {
     "name": "Jungle Gap",
     "rarity": "Common",
-    "description": {
-      "fr": "20 points si le Jungler a un meilleur KDA que son adversaire"
-    }
+    "description": "20 points if the jungler has a better KDA than their opponent"
   },
   {
     "name": "Mid Gap",
     "rarity": "Common",
-    "description": {
-      "fr": "20 points si le Midlaner a un meilleur KDA que son adversaire"
-    }
+    "description": "20 points if the midlaner has a better KDA than their opponent"
   },
   {
     "name": "ADC Gap",
     "rarity": "Common",
-    "description": {
-      "fr": "20 points si l'ADC a un meilleur KDA que son adversaire"
-    }
+    "description": "20 points if the ADC has a better KDA than their opponent"
   },
   {
     "name": "Support Gap",
     "rarity": "Common",
-    "description": {
-      "fr": "20 points si le Support a un meilleur KDA que son adversaire"
-    }
+    "description": "20 points if the support has a better KDA than their opponent"
   },
   {
     "name": "EU BrokenBlade",
     "rarity": "Player",
-    "description": {
-      "fr": "20 points par Kill ou Assist de votre Toplaner. 25 si il s'agit de BrokenBlade"
-    }
+    "description": "20 points per kill or assist by your toplaner. 25 if it is BrokenBlade"
   },
   {
     "name": "EU Razork",
     "rarity": "Player",
-    "description": {
-      "fr": "20 points par Kill ou Assist de votre Jungler. 25 si il s'agit de Razork"
-    }
+    "description": "20 points per kill or assist by your jungler. 25 if it is Razork"
   },
   {
     "name": "EU Caps",
     "rarity": "Player",
-    "description": {
-      "fr": "20 points par Kill ou Assist de votre Midlaner. 25 si il s'agit de Caps"
-    }
+    "description": "20 points per kill or assist by your midlaner. 25 if it is Caps"
   },
   {
     "name": "EU Carzzy",
     "rarity": "Player",
-    "description": {
-      "fr": "20 points par Kill ou Assist de votre ADC. 25 si il s'agit de Carzzy"
-    }
+    "description": "20 points per kill or assist by your ADC. 25 if it is Carzzy"
   },
   {
     "name": "EU Hylissang",
     "rarity": "Player",
-    "description": {
-      "fr": "20 points par Kill ou Assist de votre Support. Si il s'agit de Hylissang, gagnez aussi 10 points pour chacune de ses morts"
-    }
+    "description": "20 points per kill or assist by your support. If it is Hylissang, gain 10 additional points for each of his deaths"
   },
   {
     "name": "Rookie Caliste",
     "rarity": "Player",
-    "description": {
-      "fr": "20 points par Kill ou Assist de votre ADC. Si il s'agit de Caliste, pour chaque Kill ou Assist, gagnez 1 point supplémentaire pour chaque fois où vous avez joué cette carte sur lui cette saison"
-    }
+    "description": "20 points per kill or assist by your ADC. If it is Caliste, gain 1 extra point for each kill or assist for every time you have played this card on him this season"
   },
   {
     "name": "Blue Wall",
     "rarity": "Rare",
-    "description": {
-      "fr": "20% de points supplémentaires sur un pari gagnant KCORP ou KCORP Academy"
-    }
+    "description": "20% additional points on a winning bet on KCORP or KCORP Academy"
   },
   {
     "name": "Golden Hornet",
     "rarity": "Rare",
-    "description": {
-      "fr": "20% de points supplémentaires si jouée sur un pari gagnant Vitality ou Vitality.Bee"
-    }
+    "description": "20% additional points if played on a winning bet on Vitality or Vitality.Bee"
   },
   {
     "name": "Samourai",
     "rarity": "Rare",
-    "description": {
-      "fr": "20% de points supplémentaires si jouée sur un pari gagnant G2 Esport"
-    }
+    "description": "20% additional points if played on a winning bet on G2 Esport"
   },
   {
-    "name": "Black an Orange",
+    "name": "Black and Orange",
     "rarity": "Rare",
-    "description": {
-      "fr": "20% de points supplémentaires si jouée sur un pari gagnant FNATIC"
-    }
+    "description": "20% additional points if played on a winning bet on FNATIC"
   },
   {
     "name": "Giants",
     "rarity": "Rare",
-    "description": {
-      "fr": "20% de points supplémentaires si jouée sur un pari gagnant GIANTX"
-    }
+    "description": "20% additional points if played on a winning bet on GIANTX"
   },
   {
     "name": "Lion Kings",
     "rarity": "Rare",
-    "description": {
-      "fr": "20% de points supplémentaires si jouée sur un pari gagnant MAD Lions"
-    }
+    "description": "20% additional points if played on a winning bet on MAD Lions"
   },
   {
     "name": "Like a Shadow",
     "rarity": "Rare",
-    "description": {
-      "fr": "20% de points supplémentaires si jouée sur un pari gagnant Rogue"
-    }
+    "description": "20% additional points if played on a winning bet on Rogue"
   },
   {
     "name": "SWISS stage",
     "rarity": "Rare",
-    "description": {
-      "fr": "20% de points supplémentaires si jouée sur un pari gagnant BDS ou BDS Academy"
-    }
+    "description": "20% additional points if played on a winning bet on BDS or BDS Academy"
   },
   {
     "name": "Heretics",
     "rarity": "Rare",
-    "description": {
-      "fr": "20% de points supplémentaires si jouée sur un pari gagnant Team Heretics"
-    }
+    "description": "20% additional points if played on a winning bet on Team Heretics"
   },
   {
     "name": "Schroet Kommando",
     "rarity": "Rare",
-    "description": {
-      "fr": "20% de points supplémentaires si jouée sur un pari gagnant SK Gaming"
-    }
+    "description": "20% additional points if played on a winning bet on SK Gaming"
   },
   {
     "name": "Dragon Slayers",
     "rarity": "Epic",
-    "description": {
-      "fr": "50 points par dragon tué par votre équipe"
-    }
+    "description": "50 points per dragon slain by your team"
   },
   {
-    "name": "Tower down",
+    "name": "Tower Down",
     "rarity": "Epic",
-    "description": {
-      "fr": "25 points par tourelle détruite par votre équipe"
-    }
+    "description": "25 points per turret destroyed by your team"
   },
   {
     "name": "Bloodthirsty Top",
     "rarity": "Epic",
-    "description": {
-      "fr": "10 points pour chaque Kill ou Assist de votre Toplaner"
-    }
+    "description": "10 points for each kill or assist by your toplaner"
   },
   {
     "name": "Bloodthirsty Jungle",
     "rarity": "Epic",
-    "description": {
-      "fr": "10 points pour chaque Kill ou Assist de votre Jungler"
-    }
+    "description": "10 points for each kill or assist by your jungler"
   },
   {
     "name": "Bloodthirsty Mid",
     "rarity": "Epic",
-    "description": {
-      "fr": "10 points pour chaque Kill ou Assist de votre Midlaner"
-    }
+    "description": "10 points for each kill or assist by your midlaner"
   },
   {
     "name": "Bloodthirsty ADC",
     "rarity": "Epic",
-    "description": {
-      "fr": "10 points pour chaque Kill ou Assist de votre ADC"
-    }
+    "description": "10 points for each kill or assist by your ADC"
   },
   {
     "name": "Bloodthirsty Support",
     "rarity": "Epic",
-    "description": {
-      "fr": "10 points pour chaque Kill ou Assist de votre Support"
-    }
+    "description": "10 points for each kill or assist by your support"
   },
   {
     "name": "French Rivals BLUE",
     "rarity": "Rare",
-    "description": {
-      "fr": "100 points pour un pari gagnant sur KCORP contre Vitality"
-    }
+    "description": "100 points for a winning bet on KCORP against Vitality"
   },
   {
     "name": "French Rivals GOLD",
     "rarity": "Rare",
-    "description": {
-      "fr": "100 points pour un pari gagnant sur Vitality contre KCORP"
-    }
+    "description": "100 points for a winning bet on Vitality against KCORP"
   },
   {
     "name": "The Samourai Kills the Dragon",
     "rarity": "Rare",
-    "description": {
-      "fr": "100 points pour un pari gagnant sur G2 Esport contre Fnatic"
-    }
+    "description": "100 points for a winning bet on G2 Esport against Fnatic"
   },
   {
     "name": "The Dragon Kills the Samourai",
     "rarity": "Rare",
-    "description": {
-      "fr": "100 points pour un pari gagnant sur Fnatic contre G2 Esport"
-    }
+    "description": "100 points for a winning bet on Fnatic against G2 Esport"
   },
   {
     "name": "Flame Horizon",
     "rarity": "Rare",
-    "description": {
-      "fr": "100 points si l'un de vos joueurs a 100 cs ou plus d'avance sur son adversaire direct"
-    }
+    "description": "100 points if one of your players has 100 cs or more ahead of their direct opponent"
   }
 ]
