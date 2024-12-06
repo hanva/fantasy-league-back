@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Bet;
+use App\Repository\CardRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,7 +21,7 @@ class UserController extends AbstractController
     private $entityManager;
     private $passwordHasher;
 
-    public function __construct(EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher, private UserRepository $userRepository)
+    public function __construct(EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher, private UserRepository $userRepository, private CardRepository $cardRepository)
     {
         $this->entityManager = $entityManager;
         $this->passwordHasher = $passwordHasher;
@@ -86,6 +87,16 @@ class UserController extends AbstractController
         // TO DO CHECK IF RETURN ARE NORMALIZED
 
         return $this->json($bets);
+
+    }
+
+    #[Route("/cards/available_cards", name: "get_user_available_cards", methods: ["GET"])]
+    public function getBets(Request $request): JsonResponse
+    {
+        // TO DO, GET CARDS FROM USER
+        $cards = $this->cardRepository->findAll();
+
+        return $this->json($cards);
 
     }
 }

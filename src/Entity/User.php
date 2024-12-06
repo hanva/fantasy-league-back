@@ -38,6 +38,17 @@ use Symfony\Component\Serializer\Annotation\Groups;
             ],
             name: 'user_bets',
         ),
+        new GetCollection(
+            uriTemplate: '/api/users/cards/available_cards',
+            routeName: 'api_users_get_user_available_cards',
+            controller: UserController::class,
+            openapiContext: [
+                'security' => [['JWT' => []]],
+                'summary' => 'Get cards owned by the current user and free to be used',
+                'description' => 'Returns a collection of cards owned by the authenticated user.',
+            ],
+            name: 'user_bets',
+        ),
         new Post(
             uriTemplate: '/api/users/by-email',
             routeName: 'api_users_get_by_email',
