@@ -91,7 +91,7 @@ class UserController extends AbstractController
     }
 
     #[Route("/cards/available_cards", name: "get_user_available_cards", methods: ["GET"])]
-    public function getBets(Request $request): JsonResponse
+    public function getUserAvailableCards(Request $request): JsonResponse
     {
         // TO DO, GET CARDS FROM USER
         $cards = $this->cardRepository->findAll();
