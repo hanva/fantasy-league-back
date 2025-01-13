@@ -26,6 +26,18 @@ class Card
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
+    #[ORM\Column]
+    #[Groups(['card:read', 'card:write'])]
+    private ?int $basePoints = 0;
+
+    #[ORM\Column(length: 255)]
+    #[Groups(['card:read', 'card:write'])]
+    private ?string $condition = null;
+
+    #[ORM\OneToMany(mappedBy: "card", targetEntity: Bet::class)]
+    #[Groups(['card:read'])]
+    private Collection $bets;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -65,5 +77,88 @@ class Card
         $this->description = $description;
 
         return $this;
+    }
+
+    public function getBasePoints(): ?int
+    {
+        return $this->basePoints;
+    }
+
+    public function setBasePoints(int $basePoints): static
+    {
+        $this->basePoints = $basePoints;
+        return $this;
+    }
+
+    public function getCondition(): ?string
+    {
+        return $this->condition;
+    }
+
+    public function setCondition(string $condition): static
+    {
+        $this->condition = $condition;
+        return $this;
+    }
+
+    public function calculatePoints(array $matchStats): int
+    {
+        $points = $this->basePoints;
+    
+        // Decode the description JSON if it is valid
+        $descriptionData = json_decode($this->description, true);
+    
+        if (json_last_error() !== JSON_ERROR_NONE || !is_array($descriptionData)) {
+            return $points; // If the description is not a valid JSON, return base points
+        }
+    
+        if (isset($descriptionData['rule'])) {
+            switch ($descriptionData['rule']) {
+                case 'top_best_kda':
+                    if (isset($matchStats['topKDA']) && $matchStats['topBestKDA']) {
+                        $points += 20;
+                    }
+                    break;
+
+                case 'jungle_best_kda':
+                    if (isset($matchStats['jungleKDA']) && $matchStats['jungleBestKDA']) {
+                        $points += 20;
+                    }
+                    break;
+
+                case 'mid_best_kda':
+                    if (isset($matchStats['midKDA']) && $matchStats['midBestKDA']) {
+                        $points += 20;
+                    }
+                    break;
+
+                case 'adc_best_kda':
+                    if (isset($matchStats['adcKDA']) && $matchStats['adcBestKDA']) {
+                        $points += 20;
+                    }
+                    break;
+
+                case 'support_best_kda':
+                    if (isset($matchStats['supportKDA']) && $matchStats['supportBestKDA']) {
+                        $points += 20;
+                    }
+                    break;
+
+                case 'top_kills_assists':
+                    if (isset($matchStats['topKills'], $matchStats['topAssists'])) {
+                        $points += ($matchStats['topKills'] + $matchStats['topAssists']) * 20;
+                    }
+                    break;
+    
+                case 'top_kill_or_assist':
+                    if (isset($matchStats['topKills'], $matchStats['topAssists'])) {
+                        $points += ($matchStats['topKills'] + $matchStats['topAssists']) * $descriptionData['points_per_kill_assist'];
+                    }
+                    break;
+    
+            }
+        }
+    
+        return $points;
     }
 }
