@@ -33,6 +33,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 )]
 class Bet
 {
+    #[ORM\ManyToMany(targetEntity: Card::class)]
+    #[ORM\JoinTable(name: "bet_card")]
+    #[Groups(['bet:read', 'bet:write'])]
+    private Collection $cards;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -62,6 +67,31 @@ class Bet
 
     #[ORM\Column]
     private ?int $score = 0;
+
+    public function __construct()
+    {
+        $this->cards = new ArrayCollection();
+    }
+
+    public function getCards(): Collection
+    {
+        return $this->cards;
+    }
+
+    public function addCard(Card $card): static
+    {
+        if (!$this->cards->contains($card)) {
+            $this->cards->add($card);
+        }
+
+        return $this;
+    }
+
+    public function removeCard(Card $card): static
+    {
+        $this->cards->removeElement($card);
+        return $this;
+    }
 
     public function getId(): ?int
     {
