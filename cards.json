@@ -2,27 +2,37 @@
   {
     "name": "Top Gap",
     "rarity": "Common",
-    "description": "20 points if the toplaner has a better KDA than their opponent"
+    "description": "20 points if the toplaner has a better KDA than their opponent",
+    "rule": "top_best_kda",
+    "points": 20
   },
   {
     "name": "Jungle Gap",
     "rarity": "Common",
-    "description": "20 points if the jungler has a better KDA than their opponent"
+    "description": "20 points if the jungler has a better KDA than their opponent",
+    "rule": "jungle_best_kda",
+    "points": 20
   },
   {
     "name": "Mid Gap",
     "rarity": "Common",
-    "description": "20 points if the midlaner has a better KDA than their opponent"
+    "description": "20 points if the midlaner has a better KDA than their opponent",
+    "rule": "mid_best_kda",
+    "points": 20
   },
   {
     "name": "ADC Gap",
     "rarity": "Common",
-    "description": "20 points if the ADC has a better KDA than their opponent"
+    "description": "20 points if the ADC has a better KDA than their opponent",
+    "rule": "adc_best_kda",
+    "points": 20
   },
   {
     "name": "Support Gap",
     "rarity": "Common",
-    "description": "20 points if the support has a better KDA than their opponent"
+    "description": "20 points if the support has a better KDA than their opponent",
+    "rule": "support_best_kda",
+    "points": 20
   },
   {
     "name": "EU BrokenBlade",
