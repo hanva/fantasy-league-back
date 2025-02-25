@@ -9,6 +9,8 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Controller\LeagueController;
 use App\Repository\BetRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -33,6 +35,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 )]
 class Bet
 {
+    /**
+     * @var Collection<int, Card>
+     */
+    #[ORM\OneToMany(targetEntity: Bet::class, mappedBy: 'user')]
+    private Collection $bets;
     #[ORM\ManyToMany(targetEntity: Card::class)]
     #[ORM\JoinTable(name: "bet_card")]
     #[Groups(['bet:read', 'bet:write'])]

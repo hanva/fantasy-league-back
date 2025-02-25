@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\CardRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -34,8 +35,7 @@ class Card
     #[Groups(['card:read', 'card:write'])]
     private ?string $condition = null;
 
-    #[ORM\OneToMany(mappedBy: "card", targetEntity: Bet::class)]
-    #[Groups(['card:read'])]
+    #[ORM\OneToMany(targetEntity: Bet::class, mappedBy: "card")]
     private Collection $bets;
 
     public function getId(): ?int
@@ -104,14 +104,14 @@ class Card
     public function calculatePoints(array $matchStats): int
     {
         $points = $this->basePoints;
-    
+
         // Decode the description JSON if it is valid
         $descriptionData = json_decode($this->description, true);
-    
+
         if (json_last_error() !== JSON_ERROR_NONE || !is_array($descriptionData)) {
             return $points; // If the description is not a valid JSON, return base points
         }
-    
+
         if (isset($descriptionData['rule'])) {
             switch ($descriptionData['rule']) {
                 case 'top_best_kda':
@@ -149,16 +149,16 @@ class Card
                         $points += ($matchStats['topKills'] + $matchStats['topAssists']) * 20;
                     }
                     break;
-    
+
                 case 'top_kill_or_assist':
                     if (isset($matchStats['topKills'], $matchStats['topAssists'])) {
                         $points += ($matchStats['topKills'] + $matchStats['topAssists']) * $descriptionData['points_per_kill_assist'];
                     }
                     break;
-    
+
             }
         }
-    
+
         return $points;
     }
 }
