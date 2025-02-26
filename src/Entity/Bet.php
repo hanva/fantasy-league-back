@@ -42,7 +42,7 @@ class Bet
     private Collection $bets;
     #[ORM\ManyToMany(targetEntity: Card::class)]
     #[ORM\JoinTable(name: "bet_card")]
-    #[Groups(['bet:read', 'bet:write'])]
+    #[Groups(['bet:read', 'bet:write', 'user:read'])]
     private Collection $cards;
 
     #[ORM\Id]

@@ -7,9 +7,12 @@ use App\Repository\CardRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CardRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => ['card:read']]
+)]
 class Card
 {
     #[ORM\Id]
@@ -28,11 +31,11 @@ class Card
     private ?string $description = null;
 
     #[ORM\Column]
-    #[Groups(['card:read', 'card:write'])]
+    #[Groups(['card:read', 'user:read', 'card:write'])]
     private ?int $basePoints = 0;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['card:read', 'card:write'])]
+    #[Groups(['card:read', 'user:read', 'card:write'])]
     private ?string $condition = null;
 
     #[ORM\OneToMany(targetEntity: Bet::class, mappedBy: "card")]
