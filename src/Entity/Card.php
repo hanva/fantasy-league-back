@@ -21,21 +21,23 @@ class Card
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['bet:read', 'card:read', 'card:write', 'user_available_cards'])]
     private ?string $name = null;
 
     #[ORM\Column(type: 'string', length: 20)]
     #[Assert\Choice(choices: ['common', 'rare', 'epic', 'player'], message: 'Choose a valid rarity.')]
+    #[Groups(['bet:read', 'card:read', 'card:write', 'user_available_cards'])]
     private ?string $rarity = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
     #[ORM\Column]
-    #[Groups(['card:read', 'user:read', 'card:write'])]
+    #[Groups(['bet:read', 'card:read', 'card:write', 'user_available_cards'])]
     private ?int $basePoints = 0;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['card:read', 'user:read', 'card:write'])]
+    #[Groups(['bet:read', 'card:read', 'card:write', 'user_available_cards'])]
     private ?string $condition = null;
 
     #[ORM\OneToMany(targetEntity: Bet::class, mappedBy: "card")]

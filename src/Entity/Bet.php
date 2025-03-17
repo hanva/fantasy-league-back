@@ -30,7 +30,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             ],
         ),
     ],
-    normalizationContext: ['groups' => ['bet:read', 'user:read']],
+    normalizationContext: ['groups' => ['bet:read', 'user:read', 'user_available_cards', 'user_available_cards']],
     denormalizationContext: ['groups' => ['bet:write']]
 )]
 class Bet
@@ -42,7 +42,7 @@ class Bet
     private Collection $bets;
     #[ORM\ManyToMany(targetEntity: Card::class)]
     #[ORM\JoinTable(name: "bet_card")]
-    #[Groups(['bet:read', 'bet:write', 'user:read'])]
+    #[Groups(['bet:read', 'bet:write', 'user:read', 'user_available_cards'])]
     private Collection $cards;
 
     #[ORM\Id]
@@ -52,7 +52,7 @@ class Bet
     private ?int $id = null;
 
     #[ORM\Column(type: 'string')]
-    #[Groups(['bet:read', 'bet:write', 'user:read'])]
+    #[Groups(['bet:read', 'bet:write', 'user:read', 'user_available_cards'])]
     private ?string $leagueEventId = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'bets')]
@@ -61,15 +61,15 @@ class Bet
     private ?User $user = null;
 
     #[ORM\Column]
-    #[Groups(['bet:read', 'bet:write', 'user:read'])]
+    #[Groups(['bet:read', 'bet:write', 'user:read', 'user_available_cards'])]
     private ?int $team = null;
 
     #[ORM\Column]
-    #[Groups(['bet:read', 'bet:write', 'user:read'])]
+    #[Groups(['bet:read', 'bet:write', 'user:read', 'user_available_cards'])]
     private ?int $gameWins = null;
 
     #[ORM\Column]
-    #[Groups(['bet:read', 'bet:write', 'user:read'])]
+    #[Groups(['bet:read', 'bet:write', 'user:read', 'user_available_cards'])]
     private ?int $gameLooses = null;
 
     #[ORM\Column]

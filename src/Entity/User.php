@@ -47,7 +47,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 'summary' => 'Get cards owned by the current user and free to be used',
                 'description' => 'Returns a collection of cards owned by the authenticated user.',
             ],
-            name: 'user_bets',
+            normalizationContext: ['groups' => ['user_available_cards']],
+            name: 'user_available_cards'
         ),
         new Post(
             uriTemplate: '/api/users/by-email',
@@ -107,7 +108,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             name: 'register'
         ),
     ],
-    normalizationContext: ['groups' => ['user:read']],
+    normalizationContext: ['groups' => ['user:read', 'user_available_cards']],
     denormalizationContext: ['groups' => ['user:write']]
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -129,6 +130,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var Collection<int, Bet>
      */
     #[ORM\OneToMany(targetEntity: Bet::class, mappedBy: 'user')]
+    #[Groups(['user_available_cards'])]
     private Collection $bets;
 
     public function __construct()
@@ -178,6 +180,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
+    /**
+     * @return Collection<int, Bet>
+     */
     public function getBets(): Collection
     {
         return $this->bets;

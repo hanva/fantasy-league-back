@@ -14,6 +14,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Polyfill\Intl\Normalizer\Normalizer;
 
 #[Route('/users', name: 'api_users_')]
 class UserController extends AbstractController
@@ -75,7 +76,7 @@ class UserController extends AbstractController
     }
 
     #[Route("/bets/list", name: "get_user_bets", methods: ["GET"])]
-    public function getBets(Request $request): JsonResponse
+    public function getBets(Request $request, SerializerInterface $serializer): JsonResponse
     {
         $user = $this->getUser();
 
@@ -83,10 +84,10 @@ class UserController extends AbstractController
             return new JsonResponse(['message' => 'User not found.'], 404);
         }
 
-        $bets = $user->getBets();
+        $data = $serializer->normalize($user, null, ['groups' => 'user_available_cards']);
         // TO DO CHECK IF RETURN ARE NORMALIZED
 
-        return $this->json($bets);
+        return $this->json($data->bets);
 
     }
 
